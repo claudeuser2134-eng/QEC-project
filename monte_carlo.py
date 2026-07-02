@@ -113,14 +113,3 @@ for p in [0.01, 0.05, 0.10, 0.15, 0.20, 0.30, 0.40, 0.50]:
 # so you can see exactly when your shield stops being useful.
 # The output is data. It answers the question: at what error rate does QEC stop helping? 
 # That crossover point is the threshold — the most important number in all of QEC research.
-
-
-print("\nQuick debug test:")
-original = encode(zero)
-errored = apply_error(original, 0)
-fixed = correct(errored)
-print("Single error fix works:", np.allclose(original, fixed))
-
-errored2 = apply_error(apply_error(original, 0), 1)
-fixed2 = correct(errored2)
-print("Double error fix works:", np.allclose(original, fixed2))
