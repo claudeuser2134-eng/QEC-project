@@ -47,9 +47,9 @@ def correct(state):
     s1, s2 = measure_syndrome(state)
     if s1 == 1 and s2 == 0:
         return apply_error(state, 0)
-    elif s1 == 0 and s2 == 1:
-        return apply_error(state, 1)
     elif s1 == 1 and s2 == 1:
+        return apply_error(state, 1)
+    elif s1 == 0 and s2 == 1:
         return apply_error(state, 2)
     else:
         return state
@@ -114,3 +114,13 @@ for p in [0.01, 0.05, 0.10, 0.15, 0.20, 0.30, 0.40, 0.50]:
 # The output is data. It answers the question: at what error rate does QEC stop helping? 
 # That crossover point is the threshold — the most important number in all of QEC research.
 
+
+print("\nQuick debug test:")
+original = encode(zero)
+errored = apply_error(original, 0)
+fixed = correct(errored)
+print("Single error fix works:", np.allclose(original, fixed))
+
+errored2 = apply_error(apply_error(original, 0), 1)
+fixed2 = correct(errored2)
+print("Double error fix works:", np.allclose(original, fixed2))
