@@ -72,7 +72,7 @@ def run_simulation(error_rate, num_trials=10000):
 # If that number is less than error_rate, the qubit gets flipped. If not, nothing happens.
 
 
-        state = correct(state)
+        state = correct(state) # try to correct the state using the syndrome measurement and correction process.
 
         if not np.allclose(state, encode(zero)):
             fails += 1 
@@ -88,6 +88,29 @@ print("-" * 45)
 for p in [0.01, 0.05, 0.10, 0.15, 0.20, 0.30, 0.40, 0.50]:
     logical = run_simulation(p)
     print(f"  p = {p:.2f} -> logical = {logical:.4f}")
+    # 2f = show 2 decimal places, 4f = show 4 decimal places
+    # f just means float.
+
 
     # This calls your simulation at eight different error rates and prints the results. 
     # It will take about 10–20 seconds to run because it's doing 80,000 total trials.
+
+
+
+# What this program is actually doing overall: Imagine you build a shield to protect a qubit. 
+# You want to test how good the shield is. So you throw rocks at it 1000 of times and count 
+# how often the shield fails. which is what this program does:
+
+# Protect a qubit by encoding it across three qubits (the shield) - line 62 - 65
+# Throw random errors at it (the rocks)—each qubit has a percentage chance of being hit. lines 66-68
+# Try to fix any damage using syndrome measurement and correction - line 75
+# Check if the fix worked - lines 77-78
+# Repeat 10,000 times
+# Count what percentage of the time the fix failed
+
+# Then it does this whole thing at eight different throwing intensities
+# from gentle (1% chance per qubit) to extreme (50% chance per qubit)
+# so you can see exactly when your shield stops being useful.
+# The output is data. It answers the question: at what error rate does QEC stop helping? 
+# That crossover point is the threshold — the most important number in all of QEC research.
+
